@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author danie
+ * @author danies dawd awdawd awdaw
  */
 
 @Path("service")
