@@ -5,10 +5,27 @@
  */
 package FuelService;
 
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManager;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+
 /**
  *
  * @author danie
  */
+
+@Path("service")
+@Stateless
 public class FuelService {
+    
+    @PersistenceContext
+    EntityManager em;
+    
+   
+    
     
 }
