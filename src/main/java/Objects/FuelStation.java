@@ -23,11 +23,11 @@ import static Objects.FuelStation.FIND_ALL_FUELSTATIONS;
 @NoArgsConstructor
 
 
-@Table(name = "FUELSTATIONS")
+@Table(name = "FuelStations")
 @NamedQuery(name = FIND_ALL_FUELSTATIONS, query = "select i from FuelStaion i")
 
 public class FuelStation implements Serializable {
-    public static final String FIND_ALL_FUELSTATIONS = "Item.findAllItems";
+    public static final String FIND_ALL_FUELSTATIONS = "FuelStation.findAllFuelStations";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

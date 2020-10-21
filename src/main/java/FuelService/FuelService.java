@@ -5,6 +5,8 @@
  */
 package FuelService;
 
+import com.mycompany.fuelservice.resources.DatasourceProducer;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import Objects.FuelStation;
 import javax.ws.rs.GET;
+
 /**
  *
  * @author danie
