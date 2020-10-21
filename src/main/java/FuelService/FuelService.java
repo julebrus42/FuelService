@@ -5,6 +5,8 @@
  */
 package FuelService;
 
+import com.mycompany.fuelservice.resources.DatasourceProducer;
+
 import Objects.FuelStation;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -12,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +25,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import Objects.FuelStation;
+import javax.ws.rs.GET;
 
 /**
  *
@@ -35,6 +41,38 @@ public class FuelService {
     @PersistenceContext
     EntityManager em;
     
+    
+    @GET
+    public Response ping(){
+        return Response
+                .ok("ping")
+                .build();
+    }
+    
+   
+    @POST
+    @Path("addFuelStation")
+    public Response addFuelStation(
+            @FormParam("name") String name,
+            @FormParam("coordinates") String coordinates,
+            @FormParam("petrolPrice") int petrolPrice,
+            @FormParam("dieselPrice") int dieselprice,
+            @FormParam("petrol") boolean petrol,
+            @FormParam("diesel") boolean diesel) {
+        
+        FuelStation fuelStation = new FuelStation();
+        
+        fuelStation.setName(name);
+        fuelStation.setCoordinates(coordinates);
+        fuelStation.setPetrolPrice(petrolPrice);
+        fuelStation.setDieselPrice(dieselprice);
+        fuelStation.setPetrol(petrol);
+        fuelStation.setDiesel(diesel);
+        
+        em.persist(fuelStation);
+        
+        return Response.ok().build();
+    }
     
    @GET
     @Path("stations")
