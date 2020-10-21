@@ -26,6 +26,8 @@ import javax.ws.rs.core.SecurityContext;
 
 import Objects.FuelStation;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  *
@@ -81,16 +83,33 @@ public class FuelService {
     
     @DELETE
     @Path("delete")
-    public Response delete(@QueryParam("stationId") Long stationId) {
-        FuelStation fuelStation = em.find(FuelStation.class, stationId);
+    public Response delete(@QueryParam("stationId") Long id) {
+        FuelStation fuelStation = em.find(FuelStation.class, id);
         if (fuelStation != null){
                 em.remove(fuelStation);
                 return Response.ok().build();
             }
            return Response.notModified().build();
         }
+    
+    @PUT
+    @Path("priceChange")
+    public Response changePrice(
+            @QueryParam("id") long id,
+            @QueryParam("petrolPrice") int petrolPrice,
+            @QueryParam("dieselPrice") int dieselPrice) {
         
-     
+        FuelStation fuelStation = em.find(FuelStation.class, id);
+        
+        if (fuelStation == null) {            
+            return Response.status(Response.Status.BAD_REQUEST).build(); 
+        }
+        
+        fuelStation.setPetrolPrice(petrolPrice);
+        fuelStation.setDieselPrice(dieselPrice);
+        return Response.ok().build();
+        
     }
+}
  
     
