@@ -10,6 +10,8 @@ package Objects;
  * @author Petter Høvik Lintoft
  */
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +26,7 @@ import static Objects.FuelStation.FIND_ALL_FUELSTATIONS;
 
 
 @Table(name = "FuelStations")
-@NamedQuery(name = FIND_ALL_FUELSTATIONS, query = "select i from FuelStaion i")
+@NamedQuery(name = FIND_ALL_FUELSTATIONS, query = "select i from FuelStation i")
 
 public class FuelStation implements Serializable {
     public static final String FIND_ALL_FUELSTATIONS = "FuelStation.findAllFuelStations";

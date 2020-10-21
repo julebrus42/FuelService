@@ -5,8 +5,6 @@
  */
 package FuelService;
 
-import com.mycompany.fuelservice.resources.DatasourceProducer;
-
 import Objects.FuelStation;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
