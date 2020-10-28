@@ -16,7 +16,7 @@
         <jakartaee>8.0</jakartaee>
     </properties>
     
-     <dependencies>
+    <dependencies>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
@@ -46,11 +46,11 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.2</version>
             <scope>runtime</scope>
-        </dependency>
+        </dependency> 
         <dependency>
-            <groupId>net.coobird</groupId>
-            <artifactId>thumbnailator</artifactId>
-            <version>0.4.11</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -58,13 +58,6 @@
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.8</version>
-            <type>jar</type>
-        </dependency>
-        
-       </dependencies>
+    </dependencies>
    
 </project>
