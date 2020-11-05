@@ -5,6 +5,9 @@
  */
 package FuelService;
 
+import Auth.Group;
+import Auth.User;
+import Objects.Car;
 import Objects.FuelStation;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -40,6 +43,9 @@ public class FuelService {
     
     @PersistenceContext
     EntityManager em;
+    
+    @Context
+    SecurityContext securityContext;
     
     
     @GET
@@ -110,6 +116,42 @@ public class FuelService {
         return Response.ok().build();
         
     }
+    
+    @POST
+    @Path("addCar")
+    @RolesAllowed({Group.USER})
+    public Response addCar(
+            @FormParam("RegNumber") String RegNumber,
+            @FormParam("manufacturer") String manufacturer,
+            @FormParam("model") String model,
+            @FormParam("petrol") Boolean petrol) {
+        
+        User carOwner = this.getCurrentUser();
+        Car car = new Car();
+        
+        
+        car.setRegNumber(RegNumber);
+        car.setManufacturer(manufacturer);
+        car.setModel(model);
+        car.setPetrol(petrol);
+        car.setCarOwner(carOwner);
+        
+        em.persist(car);
+        
+        return Response.ok().build();
+    }
+    
+    private User getCurrentUser() {
+        return em.find(User.class, securityContext.getUserPrincipal().getName());
+    }
+    
+    @GET
+    @Path("cars")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Car> getCars() {
+        return em.createNamedQuery(Car.FIND_ALL_CARS, Car.class).getResultList();
+    }
+  
 }
  
     
