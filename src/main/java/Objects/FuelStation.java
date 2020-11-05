@@ -37,8 +37,8 @@ public class FuelStation implements Serializable {
     private Long id;
     private String name;
     private String coordinates;
-    private int petrolPrice;
-    private int dieselPrice;
+    private double petrolPrice;
+    private double dieselPrice;
     private boolean diesel;
     private boolean petrol;
     

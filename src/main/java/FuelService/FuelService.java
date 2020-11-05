@@ -61,8 +61,8 @@ public class FuelService {
     public Response addFuelStation(
             @FormParam("name") String name,
             @FormParam("coordinates") String coordinates,
-            @FormParam("petrolPrice") int petrolPrice,
-            @FormParam("dieselPrice") int dieselprice,
+            @FormParam("petrolPrice") double petrolPrice,
+            @FormParam("dieselPrice") double dieselprice,
             @FormParam("petrol") boolean petrol,
             @FormParam("diesel") boolean diesel) {
         
