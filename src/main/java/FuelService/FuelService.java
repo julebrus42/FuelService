@@ -124,11 +124,10 @@ public class FuelService {
             @FormParam("RegNumber") String RegNumber,
             @FormParam("manufacturer") String manufacturer,
             @FormParam("model") String model,
-            @FormParam("petrol") Boolean petrol) {
+            @FormParam("petrol") boolean petrol) {
         
         User carOwner = this.getCurrentUser();
         Car car = new Car();
-        
         
         car.setRegNumber(RegNumber);
         car.setManufacturer(manufacturer);
