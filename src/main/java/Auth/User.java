@@ -78,7 +78,7 @@ public class User implements Serializable {
     List<Group> groups;
     
     String email;
-    ArrayList<String> favoriteStations = new ArrayList<>();
+    String favoriteStations;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
@@ -97,9 +97,7 @@ public class User implements Serializable {
         }
         return groups;
     }
-    public void addFavoriteStation(String id){
-        favoriteStations.add(id);
-    }
+   
     
 
 }

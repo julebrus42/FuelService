@@ -118,14 +118,14 @@ public class FuelService {
         
     }
     
-    @PUT
+    @POST
     @Path("setFavorite")
     @RolesAllowed({Group.USER})
     public Response setFavorite(
             @FormParam("FuelStationId") String id){
         
         User user = this.getCurrentUser();
-        user.addFavoriteStation(id);
+        user.setFavoriteStations(id);
         
         return Response.ok().build();
         
