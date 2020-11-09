@@ -79,8 +79,9 @@ public class FuelService {
         
         return Response.ok().build();
     }
+ 
     
-   @GET
+    @GET
     @Path("stations")
     @Produces(MediaType.APPLICATION_JSON)
     public List<FuelStation> getFuelStations() {
@@ -117,6 +118,23 @@ public class FuelService {
         
     }
     
+    @PUT
+    @Path("setFavorite")
+    @RolesAllowed({Group.USER})
+    public Response setFavorite(
+            @FormParam("FuelStationId") String id){
+        
+        User user = this.getCurrentUser();
+        user.addFavotiteStation(id);
+        
+        return Response.ok().build();
+        
+        
+    }
+            
+            
+            
+    
     @POST
     @Path("addCar")
     @RolesAllowed({Group.USER})
@@ -151,6 +169,7 @@ public class FuelService {
     public List<Car> getCars() {
         return em.createNamedQuery(Car.FIND_ALL_CARS, Car.class).getResultList();
     }
+    
   
 }
  

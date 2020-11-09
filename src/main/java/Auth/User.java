@@ -35,6 +35,7 @@ import javax.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import Objects.FuelStation;
 
 /**
  *
@@ -73,12 +74,9 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name="userid", referencedColumnName = "userid"),
             inverseJoinColumns = @JoinColumn(name="name",referencedColumnName = "name"))
     List<Group> groups;
-
-    String firstName;
-    String middleName;
-    String lastName;
-    String phoneNumber;
+    
     String email;
+    List<String> favoriteStations;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
@@ -97,4 +95,6 @@ public class User implements Serializable {
         }
         return groups;
     }
+    
+
 }

@@ -187,8 +187,6 @@ public class AuthenticationService {
             user = new User();
             user.setUserid(uid);
             user.setPassword(hasher.generate(pwd.toCharArray()));
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
             Group usergroup = em.find(Group.class, Group.USER);
             user.getGroups().add(usergroup);
             return em.merge(user);
