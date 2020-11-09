@@ -125,7 +125,7 @@ public class FuelService {
             @FormParam("FuelStationId") String id){
         
         User user = this.getCurrentUser();
-        user.addFavotiteStation(id);
+        user.addFavoriteStation(id);
         
         return Response.ok().build();
         

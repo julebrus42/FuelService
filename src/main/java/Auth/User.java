@@ -59,6 +59,8 @@ public class User implements Serializable {
 
     @JsonbTransient
     String password;
+    
+    String firstName;
 
     @Version
     Timestamp version;
@@ -76,7 +78,7 @@ public class User implements Serializable {
     List<Group> groups;
     
     String email;
-    List<String> favoriteStations;
+    ArrayList<String> favoriteStations = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
@@ -94,6 +96,9 @@ public class User implements Serializable {
             groups = new ArrayList<>();
         }
         return groups;
+    }
+    public void addFavoriteStation(String id){
+        favoriteStations.add(id);
     }
     
 
