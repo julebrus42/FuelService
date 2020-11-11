@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import Objects.FuelStation;
+import java.util.ArrayList;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import static jdk.nashorn.internal.runtime.Debug.id;
@@ -86,6 +87,21 @@ public class FuelService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<FuelStation> getFuelStations() {
         return em.createNamedQuery(FuelStation.FIND_ALL_FUELSTATIONS, FuelStation.class).getResultList();
+    }
+    @GET
+    @Path("FavoriteStations")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<FuelStation> getFavoriteFuelStations() {
+      
+        em.find(User.class, favoriteStation);
+        List<FuelStation> favoriteStation = findFuelSTationsByFavoritedIds();
+        
+        return Response.ok().build();
+    }
+     private List<FuelStation> findFuelSTationsByFavoritedIds(List<String> FavoriteId) {
+        return FavoriteId.size() > 0 ? em.createNamedQuery(FuelStation.FIND_FUELSTATIONS_BY_IDs, FuelStation.class)
+                .setParameter("ids",FavoriteId)
+                .getResultList() : new ArrayList<>();
     }
     
     @DELETE
