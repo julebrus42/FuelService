@@ -79,7 +79,7 @@ public class User implements Serializable {
     
     String email;
     
-    String favoriteStation;
+    List favoriteStation = new ArrayList<String>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
@@ -97,6 +97,9 @@ public class User implements Serializable {
             groups = new ArrayList<>();
         }
         return groups;
+    }
+    public void addFavorite (String stationId) {
+        favoriteStation.add(stationId);
     }
    
     

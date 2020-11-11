@@ -125,9 +125,9 @@ public class FuelService {
             @QueryParam("FuelStationId") String id){
         
         User user = this.getCurrentUser();
-        user.setFavoriteStation(id);
+        user.addFavorite(id);
        
-        return Response.ok(em.merge(user)).build();
+        return Response.ok().build();
         
         
     }
