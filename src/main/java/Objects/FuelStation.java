@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import static Objects.FuelStation.FIND_ALL_FUELSTATIONS;
+import static Objects.FuelStation.FIND_FUELSTATIONS_BY_IDs;
 
 @Entity
 @Data
@@ -27,9 +28,11 @@ import static Objects.FuelStation.FIND_ALL_FUELSTATIONS;
 
 @Table(name = "FuelStations")
 @NamedQuery(name = FIND_ALL_FUELSTATIONS, query = "select i from FuelStation i")
+@NamedQuery(name = FIND_FUELSTATIONS_BY_IDs, query = "select i from FuelStation i where i.id in :ids")
 
 public class FuelStation implements Serializable {
     public static final String FIND_ALL_FUELSTATIONS = "FuelStation.findAllFuelStations";
+    public static final String FIND_FUELSTATIONS_BY_IDs = "FuelStation.findStationById";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
