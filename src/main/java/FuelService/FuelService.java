@@ -118,18 +118,28 @@ public class FuelService {
         
     }
     
-    @POST
+    @PUT
     @Path("setFavorite")
     @RolesAllowed({Group.USER})
     public Response setFavorite(
-            @FormParam("FuelStationId") String id){
+            @QueryParam("FuelStationId") String id){
         
         User user = this.getCurrentUser();
-        user.setFavoriteStations(id);
+        user.setFavoriteStation(id);
+       
+        return Response.ok(em.merge(user)).build();
         
-        return Response.ok().build();
         
+    }
+    @GET
+    @Path("getFavorite")
+    @RolesAllowed({Group.USER})
+    public Response getFavorite(){
         
+        User user = this.getCurrentUser();
+        String firstName = "favorite" + user.getFirstName();
+        
+        return Response.ok(firstName).build();
     }
             
             

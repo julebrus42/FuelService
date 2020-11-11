@@ -162,7 +162,7 @@ public class AuthenticationService {
     @POST
     @Path("create")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(@FormParam("uid") String uid, @FormParam("pwd") String pwd, @FormParam("email") String email) {
+    public Response createUser(@FormParam("uid") String uid, @FormParam("pwd") String pwd, @FormParam("email") String email,@FormParam("firstName") String firstName) {
         User user = em.find(User.class, uid);
         if (user != null) {
             log.log(Level.INFO, "user already exists {0}", uid);
@@ -172,25 +172,11 @@ public class AuthenticationService {
             user.setUserid(uid);
             user.setPassword(hasher.generate(pwd.toCharArray()));
             user.setEmail(email);
+            user.setFirstName(firstName);
             Group usergroup = em.find(Group.class, Group.USER);
             user.getGroups().add(usergroup);
             return Response.ok(em.merge(user)).build();
         }
-    }
-
-    public User createUser(String uid, String pwd, String firstName, String lastName) {
-        User user = em.find(User.class, uid);
-        if (user != null) {
-            log.log(Level.INFO, "user already exists {0}", uid);
-            throw new IllegalArgumentException("User " + uid + " already exists");
-        } else {
-            user = new User();
-            user.setUserid(uid);
-            user.setPassword(hasher.generate(pwd.toCharArray()));
-            Group usergroup = em.find(Group.class, Group.USER);
-            user.getGroups().add(usergroup);
-            return em.merge(user);
-        }        
     }
 
     

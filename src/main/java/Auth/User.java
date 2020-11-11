@@ -44,7 +44,7 @@ import Objects.FuelStation;
 
 @Entity @Table(name = "AUSER")
 @Data @AllArgsConstructor @NoArgsConstructor
-@NamedQuery(name = FIND_ALL_USERS, query = "select u from User u order by u.firstName")
+@NamedQuery(name = FIND_ALL_USERS, query = "select u from User u")
 @NamedQuery(name = FIND_USER_BY_IDS, query = "select u from User u where u.userid in :ids")
 public class User implements Serializable {
     public static final String FIND_USER_BY_IDS = "User.findUserByIds";
@@ -53,7 +53,7 @@ public class User implements Serializable {
     public enum State {
         ACTIVE, INACTIVE
     }
-
+    String favoriteStation;
     @Id
     String userid;
 
@@ -61,7 +61,7 @@ public class User implements Serializable {
     String password;
     
     String firstName;
-
+    
     @Version
     Timestamp version;
 
@@ -78,7 +78,7 @@ public class User implements Serializable {
     List<Group> groups;
     
     String email;
-    String favoriteStations;
+    
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
