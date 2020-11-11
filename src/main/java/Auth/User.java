@@ -42,8 +42,9 @@ import Objects.FuelStation;
  * @author Flamin Veinz
  */
 
-@Entity @Table(name = "AUSER")
+@Entity 
 @Data @AllArgsConstructor @NoArgsConstructor
+@Table(name = "AUSER")
 @NamedQuery(name = FIND_ALL_USERS, query = "select u from User u")
 @NamedQuery(name = FIND_USER_BY_IDS, query = "select u from User u where u.userid in :ids")
 public class User implements Serializable {
@@ -53,7 +54,6 @@ public class User implements Serializable {
     public enum State {
         ACTIVE, INACTIVE
     }
-    String favoriteStation;
     @Id
     String userid;
 
@@ -79,6 +79,7 @@ public class User implements Serializable {
     
     String email;
     
+    String favoriteStation;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
