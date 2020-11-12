@@ -91,14 +91,18 @@ public class FuelService {
     @GET
     @Path("FavoriteStations")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<FuelStation> getFavoriteFuelStations() {
-      
-        em.find(User.class, favoriteStation);
-        List<FuelStation> favoriteStation = findFuelSTationsByFavoritedIds();
+    public List<String> getFavoriteFuelStations() {
+         
+        User user = this.getCurrentUser();
+        List<String> FavoriteStationids = user.getFavoriteStation();
+        //List<FuelStation> favoriteStations = findFuelStationsByFavoritedIds(FavoriteStationids);
         
-        return Response.ok().build();
+        em.persist(FavoriteStationids);
+        
+        
+     return FavoriteStationids;
     }
-     private List<FuelStation> findFuelSTationsByFavoritedIds(List<String> FavoriteId) {
+     private List<FuelStation> findFuelStationsByFavoritedIds(List<String> FavoriteId) {
         return FavoriteId.size() > 0 ? em.createNamedQuery(FuelStation.FIND_FUELSTATIONS_BY_IDs, FuelStation.class)
                 .setParameter("ids",FavoriteId)
                 .getResultList() : new ArrayList<>();
