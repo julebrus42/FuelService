@@ -89,18 +89,19 @@ public class FuelService {
         return em.createNamedQuery(FuelStation.FIND_ALL_FUELSTATIONS, FuelStation.class).getResultList();
     }
     @GET
-    @Path("FavoriteStations")
+    @Path("favoriteStations")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getFavoriteFuelStations() {
+    public List<FuelStation> getFavoriteFuelStations() {
          
         User user = this.getCurrentUser();
         List<String> FavoriteStationids = user.getFavoriteStation();
-        //List<FuelStation> favoriteStations = findFuelStationsByFavoritedIds(FavoriteStationids);
+        List<FuelStation> favoriteStations = findFuelStationsByFavoritedIds(FavoriteStationids);
         
-        em.persist(FavoriteStationids);
+        em.persist(favoriteStations);
         
         
-     return FavoriteStationids;
+     return favoriteStations;
+     
     }
      private List<FuelStation> findFuelStationsByFavoritedIds(List<String> FavoriteId) {
         return FavoriteId.size() > 0 ? em.createNamedQuery(FuelStation.FIND_FUELSTATIONS_BY_IDs, FuelStation.class)
