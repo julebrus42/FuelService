@@ -100,26 +100,25 @@ public class FuelService {
      */
     @GET
     @Path("favoriteStations")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<FuelStation> getFavoriteFuelStations() {
+    @RolesAllowed({Group.USER})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response getFavoriteFuelStations() {
          
         List<FuelStation> favoriteStations;
         
         favoriteStations = findFuelStationsByFavoritedIds(getFavorite());
-        
-        GenericEntity<List<FuelStation>> result = new GenericEntity<List<FuelStation>>(favoriteStations){};
    
-     return Response.ok(result).build();
+     return  Response.ok(favoriteStations).build();
      
        /**
      * Finds the FuelStations with the id listed in the favoriteId param.
-     * @param FavoriteId
+     * @param favoriteId
      * @return
      */
     }
-     private List<FuelStation> findFuelStationsByFavoritedIds(List<String> FavoriteId) {
-        return FavoriteId.size() > 0 ? em.createNamedQuery(FuelStation.FIND_FUELSTATIONS_BY_IDs, FuelStation.class)
-                .setParameter("ids",FavoriteId)
+     private List<FuelStation> findFuelStationsByFavoritedIds( List<String> favoriteId) {
+        return favoriteId.size() > 0 ? em.createNamedQuery(FuelStation.FIND_FUELSTATIONS_BY_IDs, FuelStation.class)
+                .setParameter("ids",favoriteId)
                 .getResultList() : new ArrayList<>();
     }
     
@@ -166,29 +165,7 @@ public class FuelService {
         
         
     }
-  
     
-    
-    /*@GET  
-    @Path("list")
-
-    @Produces(MediaType.APPLICATION_JSON)
-
-    public Response getListOfStrings() {
-        
-        List<String> strings;
-        strings = List.of("one","two","three");
-
-
-        GenericEntity<List<String>> result;
-        result = new GenericEntity<List<String>>(strings) {};
-
-       
-
-        return Response.ok(result).build();
-
-    }*/
-            
             
     
     @POST
@@ -225,11 +202,34 @@ public class FuelService {
     public List<Car> getCars() {
         return em.createNamedQuery(Car.FIND_ALL_CARS, Car.class).getResultList();
     }
-    public List<String> getFavorite(){
+    @GET
+    @Path("getFavorite")
+    @RolesAllowed({Group.USER})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response getFavoriteResponse(){
+        User user = new User();
+        user = getCurrentUser();
+        List <String> favoriteStations;
+        favoriteStations = user.getFavoriteStation();
+    
+        GenericEntity<List<String>> result
+        = new GenericEntity<List<String>>(favoriteStations) {};
         
-        User user = this.getCurrentUser();
-        List favoriteStations = user.getFavoriteStation();
+        return Response.ok(favoriteStations).build();
+       
+    }
+    
+    public   List<String> getFavorite(){
         
+        User user = new User();
+        user = getCurrentUser();
+        List <String> favoriteStations;
+        favoriteStations = user.getFavoriteStation();
+    
+        GenericEntity<List<String>> result
+        = new GenericEntity<List<String>>(favoriteStations) {};
+        
+     
         return favoriteStations;
     }
   

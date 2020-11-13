@@ -79,7 +79,7 @@ public class User implements Serializable {
     
     String email;
     
-    List favoriteStation = new ArrayList<String>();
+    List <String> favoriteStation = new ArrayList<String>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
