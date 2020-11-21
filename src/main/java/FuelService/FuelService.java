@@ -163,7 +163,18 @@ public class FuelService {
        
         return Response.ok().build();
         
+    }
+      
+    @GET
+    @Path("removeFavorite")
+    @RolesAllowed({Group.USER})
+    public Response removeFavorite(@QueryParam("fuelStationId") String id) {
         
+        User user = this.getCurrentUser();
+        user.removeFavorite(id);
+       
+        return Response.ok().build();
+         
     }
     
             

@@ -101,7 +101,9 @@ public class User implements Serializable {
     public void addFavorite (String stationId) {
         favoriteStation.add(stationId);
     }
-   
+   public void removeFavorite (String stationId) {
+       favoriteStation.remove(stationId);
+   }
     
 
 }
