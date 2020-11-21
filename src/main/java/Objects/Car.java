@@ -7,6 +7,7 @@ package Objects;
 
 import Auth.User;
 import static Objects.Car.FIND_ALL_CARS;
+import static Objects.Car.FIND_CAR_BY_OWNER_IDs;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,9 +31,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @NamedQuery(name = FIND_ALL_CARS, query = "select i from Car i")
+@NamedQuery(name = FIND_CAR_BY_OWNER_IDs, query = "select i from Car i where i.carOwner.userid in :ids")
 public class Car implements Serializable {
 
     public static final String FIND_ALL_CARS = "Car.findAllCars";
+    public static final String FIND_CAR_BY_OWNER_IDs = "Car.findCarByIds";
+
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

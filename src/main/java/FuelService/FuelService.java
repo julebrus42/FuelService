@@ -28,10 +28,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import Objects.FuelStation;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
-import static jdk.nashorn.internal.runtime.Debug.id;
-
 /**
  *
  * @author danie
@@ -149,6 +149,28 @@ public class FuelService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Car> getCars() {
         return em.createNamedQuery(Car.FIND_ALL_CARS, Car.class).getResultList();
+    }
+    
+    @GET
+    @Path("getOwnerCar")
+    @RolesAllowed({Group.USER})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserCars() {
+        
+        User user = new User();
+        user = getCurrentUser();
+        
+        String ownerId = user.getUserid();
+        
+        List<Car> UserCars;
+        
+        UserCars = FindUserCars(ownerId);     
+        
+     return  Response.ok(UserCars).build();
+     
+    }
+     private List<Car> FindUserCars(String ownerId) { 
+        return em.createNamedQuery(Car.FIND_CAR_BY_OWNER_IDs, Car.class).setParameter("ids",ownerId).getResultList();
     }
   
 }
