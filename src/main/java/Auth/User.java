@@ -35,15 +35,17 @@ import javax.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import Objects.FuelStation;
 
 /**
  *
  * @author Flamin Veinz
  */
 
-@Entity @Table(name = "AUSER")
+@Entity 
 @Data @AllArgsConstructor @NoArgsConstructor
-@NamedQuery(name = FIND_ALL_USERS, query = "select u from User u order by u.firstName")
+@Table(name = "AUSER")
+@NamedQuery(name = FIND_ALL_USERS, query = "select u from User u")
 @NamedQuery(name = FIND_USER_BY_IDS, query = "select u from User u where u.userid in :ids")
 public class User implements Serializable {
     public static final String FIND_USER_BY_IDS = "User.findUserByIds";
@@ -52,13 +54,14 @@ public class User implements Serializable {
     public enum State {
         ACTIVE, INACTIVE
     }
-
     @Id
     String userid;
 
     @JsonbTransient
     String password;
-
+    
+    String firstName;
+    
     @Version
     Timestamp version;
 
@@ -73,12 +76,10 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name="userid", referencedColumnName = "userid"),
             inverseJoinColumns = @JoinColumn(name="name",referencedColumnName = "name"))
     List<Group> groups;
-
-    String firstName;
-    String middleName;
-    String lastName;
-    String phoneNumber;
+    
     String email;
+    
+    List <String> favoriteStation = new ArrayList<String>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "auser_properties", joinColumns=@JoinColumn(name="userid"))
@@ -97,4 +98,12 @@ public class User implements Serializable {
         }
         return groups;
     }
+    public void addFavorite (String stationId) {
+        favoriteStation.add(stationId);
+    }
+   public void removeFavorite (String stationId) {
+       favoriteStation.remove(stationId);
+   }
+    
+
 }

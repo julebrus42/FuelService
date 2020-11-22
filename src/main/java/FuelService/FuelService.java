@@ -28,8 +28,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import Objects.FuelStation;
+import java.util.ArrayList;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
+import javax.ws.rs.core.GenericEntity;
 import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
@@ -54,6 +56,9 @@ public class FuelService {
                 .ok("ping")
                 .build();
     }
+  
+
+    
     
    
     @POST
@@ -80,11 +85,41 @@ public class FuelService {
         return Response.ok().build();
     }
     
-   @GET
+   
+    
+    @GET
     @Path("stations")
     @Produces(MediaType.APPLICATION_JSON)
     public List<FuelStation> getFuelStations() {
         return em.createNamedQuery(FuelStation.FIND_ALL_FUELSTATIONS, FuelStation.class).getResultList();
+    }
+     /**
+     * Uses the findFuelStationsByFavoritedIds method to link the Ids from getFavorite() method.
+     *
+     * @return
+     */
+    @GET
+    @Path("favoriteStations")
+    @RolesAllowed({Group.USER})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response getFavoriteFuelStations() {
+         
+        List<FuelStation> favoriteStations;
+        
+        favoriteStations = findFuelStationsByFavoritedIds(getFavorite());
+   
+     return  Response.ok(favoriteStations).build();
+     
+       /**
+     * Finds the FuelStations with the id listed in the favoriteId param.
+     * @param favoriteId
+     * @return
+     */
+    }
+     private List<FuelStation> findFuelStationsByFavoritedIds( List<String> favoriteId) {
+        return favoriteId.size() > 0 ? em.createNamedQuery(FuelStation.FIND_FUELSTATIONS_BY_IDs, FuelStation.class)
+                .setParameter("ids",favoriteId)
+                .getResultList() : new ArrayList<>();
     }
     
     @DELETE
@@ -116,6 +151,33 @@ public class FuelService {
         return Response.ok().build();
         
     }
+    
+    @PUT
+    @Path("setFavorite")
+    @RolesAllowed({Group.USER})
+    public Response setFavorite(
+            @QueryParam("FuelStationId") String id){
+        
+        User user = this.getCurrentUser();
+        user.addFavorite(id);
+       
+        return Response.ok().build();
+        
+    }
+      
+    @GET
+    @Path("removeFavorite")
+    @RolesAllowed({Group.USER})
+    public Response removeFavorite(@QueryParam("fuelStationId") String id) {
+        
+        User user = this.getCurrentUser();
+        user.removeFavorite(id);
+       
+        return Response.ok().build();
+         
+    }
+    
+            
     
     @POST
     @Path("addCar")
@@ -150,6 +212,36 @@ public class FuelService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Car> getCars() {
         return em.createNamedQuery(Car.FIND_ALL_CARS, Car.class).getResultList();
+    }
+    @GET
+    @Path("getFavorite")
+    @RolesAllowed({Group.USER})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response getFavoriteResponse(){
+        User user = new User();
+        user = getCurrentUser();
+        List <String> favoriteStations;
+        favoriteStations = user.getFavoriteStation();
+    
+        GenericEntity<List<String>> result
+        = new GenericEntity<List<String>>(favoriteStations) {};
+        
+        return Response.ok(favoriteStations).build();
+       
+    }
+    
+    public   List<String> getFavorite(){
+        
+        User user = new User();
+        user = getCurrentUser();
+        List <String> favoriteStations;
+        favoriteStations = user.getFavoriteStation();
+    
+        GenericEntity<List<String>> result
+        = new GenericEntity<List<String>>(favoriteStations) {};
+        
+     
+        return favoriteStations;
     }
   
 }

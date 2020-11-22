@@ -178,23 +178,6 @@ public class AuthenticationService {
         }
     }
 
-    public User createUser(String uid, String pwd, String firstName, String lastName) {
-        User user = em.find(User.class, uid);
-        if (user != null) {
-            log.log(Level.INFO, "user already exists {0}", uid);
-            throw new IllegalArgumentException("User " + uid + " already exists");
-        } else {
-            user = new User();
-            user.setUserid(uid);
-            user.setPassword(hasher.generate(pwd.toCharArray()));
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            Group usergroup = em.find(Group.class, Group.USER);
-            user.getGroups().add(usergroup);
-            return em.merge(user);
-        }        
-    }
-
     
     /**
      *
