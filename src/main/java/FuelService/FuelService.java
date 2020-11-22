@@ -29,6 +29,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import Objects.FuelStation;
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.GenericEntity;
@@ -186,12 +187,14 @@ public class FuelService {
             @FormParam("RegNumber") String RegNumber,
             @FormParam("manufacturer") String manufacturer,
             @FormParam("model") String model,
-            @FormParam("petrol") Boolean petrol) {
+            @FormParam("petrol") boolean petrol) {
         
         User carOwner = this.getCurrentUser();
         Car car = new Car();
         
+        String ownerId = carOwner.getUserid();
         
+        car.setOwnerId(ownerId);
         car.setRegNumber(RegNumber);
         car.setManufacturer(manufacturer);
         car.setModel(model);
@@ -242,6 +245,40 @@ public class FuelService {
         
      
         return favoriteStations;
+    }
+    
+    @GET
+    @Path("getOwnerCar")
+    @RolesAllowed({Group.USER})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserCars() {
+        
+        User user = new User();
+        user = getCurrentUser();
+        
+        String ownerId = user.getUserid();
+        
+        List<Car> UserCars;
+        
+        UserCars = findUserCars(ownerId);     
+        
+     return  Response.ok(UserCars).build();
+     
+    }
+     private List<Car> findUserCars(String ownerId) { 
+        
+        List<Car> cars;
+        List<Car> ownerCars = new ArrayList<Car>();
+         
+        cars = getCars();
+        
+        for (Car car : cars) {
+            if(car.getOwnerId().equals(ownerId)) {
+                ownerCars.add(car);
+            }
+        }
+        return ownerCars;
+         
     }
   
 }
