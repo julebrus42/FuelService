@@ -46,10 +46,15 @@ public class Car implements Serializable {
     private String manufacturer;
     private String model;
     private boolean petrol; 
+    private String ownerId;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private User carOwner;
+
+    public void setOwner(String ownerId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 
 }

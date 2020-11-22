@@ -129,6 +129,9 @@ public class FuelService {
         User carOwner = this.getCurrentUser();
         Car car = new Car();
         
+        String ownerId = carOwner.getUserid();
+        
+        car.setOwnerId(ownerId);
         car.setRegNumber(RegNumber);
         car.setManufacturer(manufacturer);
         car.setModel(model);
@@ -164,13 +167,25 @@ public class FuelService {
         
         List<Car> UserCars;
         
-        UserCars = FindUserCars(ownerId);     
+        UserCars = findUserCars(ownerId);     
         
      return  Response.ok(UserCars).build();
      
     }
-     private List<Car> FindUserCars(String ownerId) { 
-        return em.createNamedQuery(Car.FIND_CAR_BY_OWNER_IDs, Car.class).setParameter("ids",ownerId).getResultList();
+     private List<Car> findUserCars(String ownerId) { 
+        
+        List<Car> cars;
+        List<Car> ownerCars = new ArrayList<Car>();
+         
+        cars = getCars();
+        
+        for (Car car : cars) {
+            if(car.getOwnerId().equals(ownerId)) {
+                ownerCars.add(car);
+            }
+        }
+        return ownerCars;
+         
     }
   
 }
