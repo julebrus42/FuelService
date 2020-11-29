@@ -26,7 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
+import java.util.concurrent.ThreadLocalRandom;
 import Objects.FuelStation;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -161,26 +161,27 @@ public class FuelService {
         return Response.ok().build();  
     }
     
-    @PUT
+    @GET
     @Path("priceChange")
     public Response changePrice (){
-        
-    
-               
+     
           List<FuelStation> fuelStationList;
           fuelStationList = getFuelStations();
         
          for (FuelStation fuelstation : fuelStationList) {
-             
-                   Random rng = new Random();
-                   
-            double petrolPrice = (rng.nextInt(160)-130) / 10.00;
-            double dieselPrice = ((rng.nextInt(160)-130) / 10.00) + 0.87;
+              
+            //Creates a random number between 13 and 16
+            double randomNumber = (double)Math.random()*((16-13))+13;
             
-             fuelstation.setPetrolPrice(petrolPrice);
-             fuelstation.setDieselPrice(dieselPrice);
-                    }
-         return Response.ok().build();
+            double petrolPriceRounded = (double) Math.round(randomNumber * 100.0)/100.0;
+            double dieselPrice = randomNumber - 0.87;
+            double dieselPriceRounded = (double) Math.round(dieselPrice * 100.0)/100.0;
+            
+            
+            fuelstation.setPetrolPrice(petrolPriceRounded);
+            fuelstation.setDieselPrice(dieselPriceRounded);
+         }
+       return Response.ok().build();
     }
     @PUT
     @Path("setFavorite")

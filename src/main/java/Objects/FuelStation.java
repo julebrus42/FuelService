@@ -48,6 +48,5 @@ public class FuelStation implements Serializable {
     private double dieselPrice;
     private boolean diesel;
     private boolean petrol;
-   // private double avragePrice = (petrolPrice + dieselPrice)/2;
     
 }
