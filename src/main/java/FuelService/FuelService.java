@@ -30,6 +30,7 @@ import javax.ws.rs.core.SecurityContext;
 import Objects.FuelStation;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.GenericEntity;
@@ -122,6 +123,14 @@ public class FuelService {
                 .setParameter("ids",favoriteId)
                 .getResultList() : new ArrayList<>();
     }
+     
+     
+    @GET
+    @Path("cheapestStations")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<FuelStation> getCheapestFuelStations() {
+        return em.createNamedQuery(FuelStation.FIND_FUELSTATIONS_BY_PRICE, FuelStation.class).getResultList();
+    }
     
     @DELETE
     @Path("delete")
@@ -149,10 +158,30 @@ public class FuelService {
         
         fuelStation.setPetrolPrice(petrolPrice);
         fuelStation.setDieselPrice(dieselPrice);
-        return Response.ok().build();
-        
+        return Response.ok().build();  
     }
     
+    @PUT
+    @Path("priceChange")
+    public Response changePrice (){
+        
+    
+               
+          List<FuelStation> fuelStationList;
+          fuelStationList = getFuelStations();
+        
+         for (FuelStation fuelstation : fuelStationList) {
+             
+                   Random rng = new Random();
+                   
+            double petrolPrice = (rng.nextInt(160)-130) / 10.00;
+            double dieselPrice = ((rng.nextInt(160)-130) / 10.00) + 0.87;
+            
+             fuelstation.setPetrolPrice(petrolPrice);
+             fuelstation.setDieselPrice(dieselPrice);
+                    }
+         return Response.ok().build();
+    }
     @PUT
     @Path("setFavorite")
     @RolesAllowed({Group.USER})
