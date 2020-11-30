@@ -47,6 +47,7 @@ public class Car implements Serializable {
     private String model;
     private boolean petrol; 
     private String ownerId;
+    private double fuelUsage;
 
     @ManyToOne
     @JoinColumn(nullable = false)

@@ -124,7 +124,8 @@ public class FuelService {
             @FormParam("RegNumber") String RegNumber,
             @FormParam("manufacturer") String manufacturer,
             @FormParam("model") String model,
-            @FormParam("petrol") boolean petrol) {
+            @FormParam("petrol") boolean petrol,
+            @FormParam("fuelUsage") double fuelUsage) {
         
         User carOwner = this.getCurrentUser();
         Car car = new Car();
@@ -136,6 +137,7 @@ public class FuelService {
         car.setManufacturer(manufacturer);
         car.setModel(model);
         car.setPetrol(petrol);
+        car.setFuelUsage(fuelUsage);
         car.setCarOwner(carOwner);
         
         em.persist(car);
