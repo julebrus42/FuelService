@@ -4,7 +4,7 @@
   <persistence-unit name="my_persistence_unit" transaction-type="JTA">
     <jta-data-source>java:app/jdbc/default</jta-data-source>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
