@@ -6,6 +6,7 @@
 package Auth;
 
 import FuelService.MailService;
+import FuelService.TempPasswordCreater;
 import com.mycompany.fuelservice.resources.DatasourceProducer;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -300,6 +301,22 @@ public class AuthenticationService {
             em.merge(user);
             return Response.ok().build();
         }
+    }
+    
+    @GET
+    @Path("resetPassword")
+    public Response resetPassword(
+            @QueryParam("uid") String uid) {
+        
+        TempPasswordCreater tempPasswordCreater = new TempPasswordCreater();
+        
+        String tempPassword = tempPasswordCreater.createTempPwd();
+        
+        User user = em.find(User.class, uid);
+        user.setPassword(hasher.generate(tempPassword.toCharArray()));
+        mailService.sendEmail(user.getEmail(), "Password forgotten", "You have asked us to reset your password. Your new temperary password is: " + tempPassword + " . Use this password when you log in the next time");
+        
+        return Response.ok().build();
     }
     
     
