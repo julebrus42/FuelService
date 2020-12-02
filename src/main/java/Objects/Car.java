@@ -42,7 +42,7 @@ public class Car implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long carId;
 
-    private String RegNumber;
+    private String regNumber;
     private String manufacturer;
     private String model;
     private boolean petrol; 
