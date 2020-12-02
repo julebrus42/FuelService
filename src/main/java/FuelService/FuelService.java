@@ -132,6 +132,17 @@ public class FuelService {
         }
         return Response.notModified().build();
     }
+    @DELETE
+    @Path("deleteCar")
+    public Response deleteCar(@QueryParam("carId") Long id) {
+        Car car = em.find(Car.class, id);
+        if (car != null) {
+            em.remove(car);
+            return Response.ok().build();
+        }
+        return Response.notModified().build();
+    }
+    
 
     @PUT
     @Path("SingleStationPriceChange")
