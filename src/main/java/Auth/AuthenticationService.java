@@ -5,6 +5,7 @@
  */
 package Auth;
 
+import FuelService.MailService;
 import com.mycompany.fuelservice.resources.DatasourceProducer;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -63,6 +64,9 @@ public class AuthenticationService {
 
     @Inject
     IdentityStoreHandler identityStoreHandler;
+    
+    @Inject 
+    MailService mailService;
 
     @Inject
     @ConfigProperty(name = "mp.jwt.verify.issuer", defaultValue = "issuer")
@@ -174,6 +178,7 @@ public class AuthenticationService {
             user.setEmail(email);
             Group usergroup = em.find(Group.class, Group.USER);
             user.getGroups().add(usergroup);
+            mailService.sendEmail(user.getEmail(), "Welcome!", "Your user has been successfully created, with the username: " + uid);
             return Response.ok(em.merge(user)).build();
         }
     }

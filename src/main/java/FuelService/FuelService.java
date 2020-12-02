@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.ejb.TimerConfig;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 
@@ -41,6 +42,10 @@ public class FuelService {
 
     @PersistenceContext
     EntityManager em;
+    
+    @Inject 
+    MailService mailService;
+
 
     @Context
     SecurityContext securityContext;
@@ -232,7 +237,7 @@ public class FuelService {
         car.setCarOwner(carOwner);
 
         em.persist(car);
-
+        
         return Response.ok().build();
     }
 
